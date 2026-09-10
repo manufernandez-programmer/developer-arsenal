@@ -61,9 +61,11 @@ See a real example, break it down, understand what happened, then return to Quic
     └── Indentation Cleanup
 ```
 
+```text
 ══════════════════════════════════════════════════════════
-                      ⚡ QUICK MODE
+                       ⚡ QUICK MODE                       
 ══════════════════════════════════════════════════════════
+```
 
 ━━━━━━━━━━━━━━━━━━━━━━ 💻 TERMINAL ━━━━━━━━━━━━━━━━━━━━━━
 
@@ -344,9 +346,11 @@ cp file file.bak && expand -t 4 file > file.tmp && mv file.tmp file
 → Create a backup, convert TAB indentation, and replace the original
 only if each previous step succeeds.
 
+```text
 ══════════════════════════════════════════════════════════
-                   🏁 END OF QUICK MODE
+                   🏁 END OF QUICK MODE                    
 ══════════════════════════════════════════════════════════
+```
 
 ### 🗺️ MAP
 
@@ -401,9 +405,11 @@ only if each previous step succeeds.
     └── Indentation Cleanup
 ```
 
+```text
 ══════════════════════════════════════════════════════════
-                     🎓 LEARNING MODE
+                     🎓 LEARNING MODE                      
 ══════════════════════════════════════════════════════════
+```
 
 Never used one of these tools before, or found something in Quick Mode
 that you don't understand?
@@ -1358,6 +1364,8 @@ Before running destructive or replacement operations on important files,
 verify your paths and keep a backup you know how to restore.
 ```
 
+```text
 ══════════════════════════════════════════════════════════
-                  🏁 END OF LEARNING MODE
+                  🏁 END OF LEARNING MODE                  
 ══════════════════════════════════════════════════════════
+```
