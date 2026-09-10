@@ -20,6 +20,7 @@ See a real example, break it down, understand what happened, then return to Quic
 
 ### 🗺️ MAP
 
+```text
 ⚡ QUICK MODE
 │
 ├── 💻 Terminal
@@ -58,6 +59,7 @@ See a real example, break it down, understand what happened, then return to Quic
 │
 └── 🧰 Utilities
     └── Indentation Cleanup
+```
 
 ══════════════════════════════════════════════════════════
                       ⚡ QUICK MODE
@@ -348,6 +350,7 @@ only if each previous step succeeds.
 
 ### 🗺️ MAP
 
+```text
 🎓 LEARNING MODE
 │
 ├── 🧠 Fundamentals
@@ -396,6 +399,7 @@ only if each previous step succeeds.
 │
 └── 🧰 Utilities
     └── Indentation Cleanup
+```
 
 ══════════════════════════════════════════════════════════
                      🎓 LEARNING MODE
@@ -425,11 +429,13 @@ command -option argument
 
 ### 🧩 Visual Breakdown
 
+```text
 command -option argument
 │       │       │
 │       │       └── Argument → What the command receives or acts on
 │       └────────── Option → Changes how the command behaves
 └────────────────── Command → The program or instruction being executed
+```
 
 ### Command
 
@@ -449,6 +455,7 @@ An option modifies how a command behaves.
 
 ### 🧩 Visual Breakdown
 
+```text
 grep -n error file.txt
 │    │  │     │
 │    │  │     └── File to search
@@ -458,6 +465,7 @@ grep -n error file.txt
 
 Options belong to the command that interprets them. The same option can
 mean different things for different commands.
+```
 
 ### Argument
 
@@ -467,6 +475,7 @@ An argument provides information to a command.
 
 ### 🧩 Visual Breakdown
 
+```text
 cp source.txt backup.txt
 │  │          │
 │  │          └── Destination argument
@@ -475,6 +484,7 @@ cp source.txt backup.txt
 
 Arguments can tell a command what to work with, what to search for,
 where to operate, or other data it needs.
+```
 
 ────── o ──────
 
@@ -583,12 +593,14 @@ directory; it does not modify its contents.
 
 ### 🧩 Visual Breakdown
 
+```text
 cd projects
 │  │
 │  └── Destination directory
 └───── Command
 
 `cd` changes the shell's current directory.
+```
 
 ────── o ──────
 
@@ -642,6 +654,7 @@ Creates a directory named `examples`.
 
 ### 🧩 Visual Breakdown
 
+```text
 mkdir -p project/examples
 │     │  │
 │     │  └── Path
@@ -649,6 +662,7 @@ mkdir -p project/examples
 └─────────── Command
 
 With `-p`, `mkdir` can also create missing parent directories.
+```
 
 ────── o ──────
 
@@ -658,6 +672,7 @@ With `-p`, `mkdir` can also create missing parent directories.
 
 ### 🧩 Visual Breakdown
 
+```text
 cp source.txt backup.txt
 │  │          │
 │  │          └── Destination
@@ -672,6 +687,7 @@ copy:
 `cp script.py script.py.bak`
 
 `.bak` is only a naming convention. It has no magical backup behavior.
+```
 
 ────── o ──────
 
@@ -729,12 +745,14 @@ That makes it Wayland-specific rather than a universal shell command.
 
 ### 🧩 Visual Breakdown
 
+```text
 cat script.py | wl-copy
 │   │         │ │
 │   │         │ └── Receives data and copies it
 │   │         └──── Pipe
 │   └────────────── File
 └────────────────── Produces the file contents
+```
 
 ### Copy normal output and errors
 
@@ -838,6 +856,7 @@ The terminal prints:
 
 ### 🧩 Visual Breakdown
 
+```text
 python hello.py
 │      │
 │      └── Python file to run
@@ -848,6 +867,7 @@ A Python program can also receive command-line arguments:
 `python script.py input.csv`
 
 Inside Python, tools such as `sys.argv` can access those arguments.
+```
 
 ## 🔍 CHECKING SYNTAX
 
@@ -855,6 +875,7 @@ Inside Python, tools such as `sys.argv` can access those arguments.
 
 ### 🧩 Visual Breakdown
 
+```text
 python -m py_compile script.py
 │      │  │          │
 │      │  │          └── File to compile
@@ -868,6 +889,7 @@ If Python encounters a syntax problem, it reports the error.
 
 This checks whether Python can compile the file; it does not run the
 script's normal application flow.
+```
 
 ━━━━━━━━━━━━━━━━━━━━ 🧬 GIT & GITHUB ━━━━━━━━━━━━━━━━━━━━
 
@@ -890,6 +912,7 @@ GitHub uses Git repositories, but Git and GitHub are not the same thing.
 
 A basic Git workflow looks like this:
 
+```text
                   LOCAL MACHINE
 
              ┌─────────────────┐
@@ -923,6 +946,7 @@ A basic Git workflow looks like this:
              │     GITHUB      │
              │ remote repository
              └─────────────────┘
+```
 
 The working tree is what you are currently editing.
 
@@ -981,6 +1005,7 @@ It selects changes for the next commit.
 
 ### 🧩 Visual Breakdown
 
+```text
 git commit -m "Initial release"
 │   │      │  │
 │   │      │  └── Commit message
@@ -994,6 +1019,7 @@ The first commit in a repository is commonly called the root commit.
 
 Git identifies commits with hashes; interfaces often show a shortened
 form of the full ID.
+```
 
 ────── o ──────
 
@@ -1073,6 +1099,7 @@ A local repository can be connected to a remote repository:
 
 ### 🧩 Visual Breakdown
 
+```text
 git remote add origin URL
 │   │      │   │      │
 │   │      │   │      └── Remote repository URL
@@ -1089,6 +1116,7 @@ Check configured remotes with:
 `git remote -v`
 
 You may see separate fetch and push entries for the same remote.
+```
 
 ────── o ──────
 
@@ -1119,6 +1147,7 @@ process.
 
 ### 🧩 Visual Breakdown
 
+```text
 git push -u origin main
 │   │    │  │      │
 │   │    │  │      └── Local branch to push
@@ -1133,6 +1162,7 @@ upstream relationship.
 After that, the usual push can often be shortened to:
 
 `git push`
+```
 
 ────── o ──────
 
@@ -1244,6 +1274,7 @@ function hello echo "Hello" end
 
 ### 🧩 Visual Breakdown
 
+```text
 function hello
 │        │
 │        └── Function name
@@ -1263,6 +1294,7 @@ saves that defined function so Fish can autoload it in future sessions.
 
 `funcsave` does not invent the function for you. The function must
 already be defined.
+```
 
 ━━━━━━━━━━━━━━━━━━━━━━ 🧰 UTILITIES ━━━━━━━━━━━━━━━━━━━━━
 
@@ -1300,6 +1332,7 @@ replaces the original path with the transformed temporary file.
 
 ### 🧩 Visual Breakdown
 
+```text
 cp file.py file.py.bak &&
 expand -t 4 file.py > file.tmp &&
 mv file.tmp file.py
@@ -1323,6 +1356,7 @@ It's just several boring little commands wearing a trench coat.
 
 Before running destructive or replacement operations on important files,
 verify your paths and keep a backup you know how to restore.
+```
 
 ══════════════════════════════════════════════════════════
                   🏁 END OF LEARNING MODE
