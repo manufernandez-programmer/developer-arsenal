@@ -2,7 +2,7 @@
 
 A practical developer encyclopedia and quick-reference manual for everyday development tools.
 
-══════════════════════════════
+---
 
 This arsenal is divided into two:
 
@@ -16,60 +16,53 @@ Find it, grab the command, and keep working.
 Don't understand something?
 See a real example, break it down, understand what happened, then return to Quick Mode.
 
-══════════════════════════════
+---
 
-### 🗺️ MAP
+<a id="map"></a>
 
-```text
-⚡ QUICK MODE
-│
-├── 💻 Terminal
-│   ├── Navigation
-│   ├── Files & Directories
-│   ├── Search
-│   ├── Clipboard
-│   ├── Redirection & Pipes
-│   ├── Options
-│   └── Symbols & Sequences
-│
-├── 🐍 Python
-│   ├── Running Programs
-│   └── Syntax Checking
-│
-├── 🧬 Git & GitHub
-│   ├── Repository
-│   ├── Status
-│   ├── Staging
-│   ├── Commits
-│   ├── Branches
-│   ├── Identity
-│   ├── .gitignore
-│   ├── Remotes
-│   ├── Push
-│   └── GitHub CLI
-│
-├── ✏️ Nano
-│   ├── Navigation
-│   ├── Editing
-│   └── Save & Exit
-│
-├── 🐟 Fish
-│   ├── Sessions
-│   └── Functions
-│
-└── 🧰 Utilities
-    └── Indentation Cleanup
-```
+## 🗺️ Map
 
-```text
-══════════════════════════════════════════════════════════
-                       ⚡ QUICK MODE                       
-══════════════════════════════════════════════════════════
-```
+| Topic | ⚡ Quick Mode | 🎓 Learning Mode |
+| --- | --- | --- |
+| Fundamentals | — | [Command anatomy, shortcuts, exit codes](#learning-fundamentals) |
+| Terminal | [Commands](#quick-terminal) | [Examples and effects](#learning-terminal) |
+| Python | [Run and compile](#quick-python) | [First program and syntax](#learning-python) |
+| Git & GitHub | [Reference](#quick-git) | [Local history to a reviewed PR](#learning-git) |
+| Nano | [Shortcuts](#quick-nano) | [Editing walkthrough](#learning-nano) |
+| Fish | [Sessions and functions](#quick-fish) | [Define and save a function](#learning-fish) |
+| Utilities | [Inspect tabs](#quick-utilities) | [Review an indentation conversion](#learning-utilities) |
 
-━━━━━━━━━━━━━━━━━━━━━━ 💻 TERMINAL ━━━━━━━━━━━━━━━━━━━━━━
+## Before copying a command
 
-## 🧭 NAVIGATION
+This is a reference, not a script to run from top to bottom. Names such as
+`file`, `path`, `command` and `URL` are placeholders. Replace them deliberately;
+quote paths with spaces, for example `cat "my notes.txt"`. With GNU file tools,
+`--` ends option parsing: `rm -- "-draft.txt"` treats the name as a filename.
+
+Examples target Linux with GNU utilities, Bash and current Fish. Fish function
+syntax is labeled separately; it is not Bash syntax. Wayland clipboard examples
+need `wl-clipboard` and an accessible compositor. Use `python --version`,
+`git --version`, `fish --version` or `nano --version` to check your own tools.
+Reading the manual requires no installation; install only tools you choose to use.
+
+**Know the effect:** `rm` deletes; `cp` and `mv` can overwrite; `>` truncates an
+existing destination before the command runs; `git push` publishes history.
+Inspect paths and changes first. Work on disposable copies while learning, and
+never pipe private files or logs to the clipboard without checking their contents.
+
+<a id="quick-mode"></a>
+
+## ⚡ Quick Mode
+
+<a id="quick-terminal"></a>
+
+### 💻 TERMINAL
+
+[🧭 Navigation](#quick-terminal-navigation) · [📄 Files & Directories](#quick-terminal-files-directories) · [🔎 Search](#quick-terminal-search) · [📋 Clipboard](#quick-terminal-clipboard) · [🔀 Redirection & Pipes](#quick-terminal-redirection-pipes) · [⚙️ Options](#quick-terminal-options) · [🔣 Symbols & Sequences](#quick-terminal-symbols-sequences)
+
+<a id="quick-terminal-navigation"></a>
+
+#### 🧭 NAVIGATION
 
 `pwd` → Show the current directory
 
@@ -79,9 +72,11 @@ See a real example, break it down, understand what happened, then return to Quic
 
 `ls` → List files and directories
 
-────── o ──────
+---
 
-## 📄 FILES & DIRECTORIES
+<a id="quick-terminal-files-directories"></a>
+
+#### 📄 FILES & DIRECTORIES
 
 `cat file` → Display the entire contents of a file
 
@@ -94,33 +89,41 @@ See a real example, break it down, understand what happened, then return to Quic
 `mkdir -p path/directory` → Create a directory path, including missing
 parent directories
 
-`cp source destination` → Copy a file
+`cp source destination` → Copy a file; may overwrite the destination
 
-`mv source destination` → Move or rename a file
+`mv source destination` → Move or rename a file; may overwrite the destination
 
-`rm file` → Delete a file
+`rm file` → Delete a file directly, without using the trash
 
-`rm -r directory` → Delete a directory and its contents recursively
+`rm -r directory` → Delete a directory tree; inspect the target first
 
 `.bak` → Common suffix used to identify a backup copy
 
-### 🔒 Backup
+##### 🔒 Backup
 
-`cp source destination.bak` → Create a backup copy
+`cp -i -- source destination.bak` → Copy with a prompt before overwriting
 
-────── o ──────
+Choose a new backup name. Declining the prompt does not create a fresh backup.
 
-## 🔎 SEARCH
+---
+
+<a id="quick-terminal-search"></a>
+
+#### 🔎 SEARCH
 
 `grep pattern file` → Search for a pattern inside a file
 
 `grep -n pattern file` → Show matching lines with line numbers
 
-`grep -P '\t' file` → Search for TAB characters inside a file
+`grep -P '\t' file` → Search for TAB characters (requires PCRE support)
 
-────── o ──────
+`grep -Fn -- "literal.text" file` → Search for literal text with line numbers
 
-## 📋 CLIPBOARD
+---
+
+<a id="quick-terminal-clipboard"></a>
+
+#### 📋 CLIPBOARD
 
 `wl-copy` → Copy data to the Wayland clipboard
 
@@ -130,22 +133,26 @@ parent directories
 
 `command 2>&1 | wl-copy` → Copy both standard output and errors
 
-────── o ──────
+---
 
-## 🔀 REDIRECTION & PIPES
+<a id="quick-terminal-redirection-pipes"></a>
+
+#### 🔀 REDIRECTION & PIPES
 
 `command1 | command2` → Send the output of one command to another
 
-`command > file` → Write command output to a file
+`command > file` → Write standard output; creates or truncates the file
 
 `command1 && command2` → Run the second command only if the first
 succeeds
 
 `command 2>&1` → Merge error output with standard output
 
-────── o ──────
+---
 
-## ⚙️ OPTIONS
+<a id="quick-terminal-options"></a>
+
+#### ⚙️ OPTIONS
 
 `mkdir -p` → Create missing parent directories
 
@@ -156,9 +163,11 @@ succeeds
 `grep -P` → Interpret the pattern as a Perl-compatible regular
 expression
 
-────── o ──────
+---
 
-## 🔣 SYMBOLS & SEQUENCES
+<a id="quick-terminal-symbols-sequences"></a>
+
+#### 🔣 SYMBOLS & SEQUENCES
 
 `/` → Separate parts of a path
 
@@ -170,113 +179,163 @@ expression
 
 `|` → Pipe output into another command
 
-`>` → Redirect output into a file
+`>` → Redirect output; creates or truncates the destination
 
 `&&` → Continue only if the previous command succeeds
 
 `2>&1` → Merge standard error into standard output
 
-`\t` → Represent a TAB character
+`\t` → TAB escape notation when the receiving tool interprets it
 
 `\` → Continue a command on the next line
 
-━━━━━━━━━━━━━━━━━━━━━━━ 🐍 PYTHON ━━━━━━━━━━━━━━━━━━━━━━━
+<a id="quick-python"></a>
 
-## ▶️ RUNNING PROGRAMS
+### 🐍 PYTHON
+
+[▶️ Running Programs](#quick-python-running-programs) · [🔍 Syntax Checking](#quick-python-syntax-checking)
+
+<a id="quick-python-running-programs"></a>
+
+#### ▶️ RUNNING PROGRAMS
 
 `python script.py` → Run a Python program
 
 `python script.py argument` → Run a Python program with a command-line
 argument
 
-────── o ──────
+---
 
-## 🔍 SYNTAX CHECKING
+<a id="quick-python-syntax-checking"></a>
+
+#### 🔍 SYNTAX CHECKING
 
 `python -m py_compile script.py` → Check Python syntax without running
-the program
+the program; normally writes bytecode under `__pycache__/`
 
-━━━━━━━━━━━━━━━━━━━━ 🧬 GIT & GITHUB ━━━━━━━━━━━━━━━━━━━━
+<a id="quick-git"></a>
 
-## 📦 REPOSITORY
+### 🧬 GIT & GITHUB
+
+[📦 Repository](#quick-git-repository) · [🔎 Status](#quick-git-status) · [📥 Staging](#quick-git-staging) · [💾 Commits](#quick-git-commits) · [🌿 Branches](#quick-git-branches) · [🪪 Identity](#quick-git-identity) · [🙈 .gitignore](#quick-git-gitignore) · [🌎 Remotes](#quick-git-remotes) · [🚀 Push](#quick-git-push) · [🐙 GitHub CLI](#quick-git-github-cli)
+
+<a id="quick-git-repository"></a>
+
+#### 📦 REPOSITORY
 
 `git init` → Initialize a Git repository in the current directory
 
-────── o ──────
+---
 
-## 🔎 STATUS
+<a id="quick-git-status"></a>
+
+#### 🔎 STATUS
 
 `git status` → Show the current state of the working tree and staging
 area
 
-────── o ──────
+---
 
-## 📥 STAGING
+<a id="quick-git-staging"></a>
+
+#### 📥 STAGING
 
 `git add file` → Add a file to the staging area
 
-`git add .` → Add all current changes to the staging area
+`git add .` → Stage additions, modifications and deletions under the current
+directory (subject to ignore rules for untracked files)
 
-────── o ──────
+---
 
-## 💾 COMMITS
+<a id="quick-git-commits"></a>
+
+#### 💾 COMMITS
 
 `git commit -m "message"` → Create a commit with a message
 
-────── o ──────
+---
 
-## 🌿 BRANCHES
+<a id="quick-git-branches"></a>
 
-`git branch -m main` → Rename the current branch to `main`
+#### 🌿 BRANCHES
 
-────── o ──────
+`git branch -m main` → Rename the current local branch to `main`
 
-## 🪪 IDENTITY
+`git switch -c docs-improvement` → Create and switch to a work branch
+
+`git diff` → Inspect unstaged changes
+
+`git diff --cached` → Inspect staged changes before committing
+
+---
+
+<a id="quick-git-identity"></a>
+
+#### 🪪 IDENTITY
 
 `git config --global user.name "Your Name"` → Set your global Git author
-name
+name for all repositories unless overridden locally
 
 `git config --global user.email "you@example.com"` → Set your global Git
-author email
+author email for all repositories unless overridden locally
 
-────── o ──────
+---
 
-## 🙈 .GITIGNORE
+<a id="quick-git-gitignore"></a>
 
-`.gitignore` → Define files and directories Git should ignore
+#### 🙈 .GITIGNORE
+
+`.gitignore` → Define patterns for untracked files Git should ignore; does not
+untrack existing files or erase history
 
 `*.bak` → Ignore files ending in `.bak`
 
 `directory/` → Ignore a directory
 
-────── o ──────
+---
 
-## 🌎 REMOTES
+<a id="quick-git-remotes"></a>
+
+#### 🌎 REMOTES
 
 `git remote add origin URL` → Add a remote repository named `origin`
 
 `git remote -v` → Show configured remotes and their URLs
 
-────── o ──────
+---
 
-## 🚀 PUSH
+<a id="quick-git-push"></a>
+
+#### 🚀 PUSH
 
 `git push -u origin main` → Push `main` to `origin` and set its upstream
 branch
 
-`git push` → Push commits to the configured upstream branch
+`git push` → Push according to remote, upstream and `push.default` settings
 
-────── o ──────
+---
 
-## 🐙 GITHUB CLI
+<a id="quick-git-github-cli"></a>
+
+#### 🐙 GITHUB CLI
 
 `gh --version` → Show the installed GitHub CLI version
 
-`gh auth login` → Authenticate GitHub CLI
+`gh auth login` → Authenticate GitHub CLI; changes stored credentials
 
-━━━━━━━━━━━━━━━━━━━━━━━━ ✏️ NANO ━━━━━━━━━━━━━━━━━━━━━━━━
+<a id="quick-nano"></a>
 
-## 🧭 NAVIGATION
+### ✏️ NANO
+
+These are traditional bindings. Nano 8+ also supports `Ctrl + F` for forward
+search. Custom bindings or modernbindings mode can differ; `Ctrl + G` opens
+help with traditional bindings. Check the shortcut bar in your own session.
+
+[🧭 Navigation](#quick-nano-navigation) · [✏️ Editing](#quick-nano-editing) · [💾 Save & Exit](#quick-nano-save-exit)
+
+<a id="quick-nano-navigation"></a>
+
+#### 🧭 NAVIGATION
 
 `Ctrl + W` → Search for text
 
@@ -284,9 +343,11 @@ branch
 
 `Alt + G` → Go to a specific line and column
 
-────── o ──────
+---
 
-## ✏️ EDITING
+<a id="quick-nano-editing"></a>
+
+#### ✏️ EDITING
 
 `Ctrl + K` → Cut the current line or selected text
 
@@ -300,9 +361,11 @@ branch
 
 `Ctrl + \` → Search and replace
 
-────── o ──────
+---
 
-## 💾 SAVE & EXIT
+<a id="quick-nano-save-exit"></a>
+
+#### 💾 SAVE & EXIT
 
 `Ctrl + O` → Write the current buffer to a file
 
@@ -312,104 +375,54 @@ branch
 
 `Ctrl + C` → Cancel the current action when applicable
 
-━━━━━━━━━━━━━━━━━━━━━━━━ 🐟 FISH ━━━━━━━━━━━━━━━━━━━━━━━━
+<a id="quick-fish"></a>
 
-## 🖥️ SESSIONS
+### 🐟 FISH
+
+[🖥️ Sessions](#quick-fish-sessions) · [⚙️ Functions](#quick-fish-functions)
+
+<a id="quick-fish-sessions"></a>
+
+#### 🖥️ SESSIONS
 
 `exit` → Exit the current Fish shell session
 
-────── o ──────
+---
 
-## ⚙️ FUNCTIONS
+<a id="quick-fish-functions"></a>
+
+#### ⚙️ FUNCTIONS
 
 `function name` → Start defining a function
 
 `end` → End the function definition
 
-`funcsave name` → Save a defined function for future Fish sessions
+`funcsave name` → Write a defined function to Fish configuration for future
+sessions; can replace a saved function with that name
 
-━━━━━━━━━━━━━━━━━━━━━━ 🧰 UTILITIES ━━━━━━━━━━━━━━━━━━━━━
+<a id="quick-utilities"></a>
 
-## 🧹 INDENTATION CLEANUP
+### 🧰 UTILITIES
 
-`grep -nP '\t' file` → Find TAB characters and show their line numbers
+[🧹 Indentation Cleanup](#quick-utilities-indentation-cleanup)
 
-`expand -t 4 file > file.tmp` → Convert TAB stops to spaces and write
-the result to a temporary file
+<a id="quick-utilities-indentation-cleanup"></a>
 
-`mv file.tmp file` → Replace the original file with the converted file
+#### 🧹 INDENTATION CLEANUP
 
-### Safe sequence
+`grep -nP '\t' file.py` → Locate TAB characters (GNU grep with PCRE)
 
-cp file file.bak && expand -t 4 file > file.tmp && mv file.tmp file
+`expand -i -t 4 -- file.py` → Preview conversion of leading tabs on standard output
 
-→ Create a backup, convert TAB indentation, and replace the original
-only if each previous step succeeds.
+Do not automatically replace a source file. Even leading whitespace can be data
+inside a multiline string, and Make recipes may require tabs. See the
+[review-first conversion example](#learning-utilities-indentation-cleanup).
 
-```text
-══════════════════════════════════════════════════════════
-                   🏁 END OF QUICK MODE                    
-══════════════════════════════════════════════════════════
-```
+[Back to the map](#map)
 
-### 🗺️ MAP
+<a id="learning-mode"></a>
 
-```text
-🎓 LEARNING MODE
-│
-├── 🧠 Fundamentals
-│   ├── Command Anatomy
-│   │   ├── Commands
-│   │   ├── Options
-│   │   └── Arguments
-│   ├── Shortcuts
-│   └── Exit Codes
-│
-├── 💻 Terminal
-│   ├── Navigation
-│   ├── Files & Directories
-│   ├── Search
-│   ├── Clipboard
-│   ├── Redirection & Pipes
-│   └── Symbols & Sequences
-│
-├── 🐍 Python
-│   ├── Running Your First Program
-│   └── Checking Syntax
-│
-├── 🧬 Git & GitHub
-│   ├── Git vs GitHub
-│   ├── Mental Model
-│   ├── Creating a Repository
-│   ├── Checking Status
-│   ├── Staging Changes
-│   ├── Creating a Commit
-│   ├── Branches
-│   ├── Configuring Identity
-│   ├── .gitignore
-│   ├── Connecting GitHub
-│   ├── Authentication
-│   ├── First Push
-│   └── Everyday Workflow
-│
-├── ✏️ Nano
-│   ├── Navigation
-│   ├── Editing
-│   └── Save & Exit
-│
-├── 🐟 Fish
-│   ├── Sessions
-│   └── Functions
-│
-└── 🧰 Utilities
-    └── Indentation Cleanup
-```
-
-```text
-══════════════════════════════════════════════════════════
-                     🎓 LEARNING MODE                      
-══════════════════════════════════════════════════════════
-```
+## 🎓 Learning Mode
 
 Never used one of these tools before, or found something in Quick Mode
 that you don't understand?
@@ -425,15 +438,21 @@ When useful, examples answer five questions:
 4.  What does each part mean?
 5.  What just happened?
 
-━━━━━━━━━━━━━━━━━━━━━ 🧠 FUNDAMENTALS ━━━━━━━━━━━━━━━━━━━━━
+<a id="learning-fundamentals"></a>
 
-## 🧩 COMMAND ANATOMY
+### 🧠 FUNDAMENTALS
+
+[🧩 Command Anatomy](#learning-fundamentals-command-anatomy) · [⌨️ Shortcuts](#learning-fundamentals-shortcuts) · [🚦 Exit Codes](#learning-fundamentals-exit-codes)
+
+<a id="learning-fundamentals-command-anatomy"></a>
+
+#### 🧩 COMMAND ANATOMY
 
 A common command-line pattern looks like this:
 
 command -option argument
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 command -option argument
@@ -443,7 +462,7 @@ command -option argument
 └────────────────── Command → The program or instruction being executed
 ```
 
-### Command
+##### Command
 
 A command tells the system which program or instruction you want to
 execute.
@@ -453,13 +472,13 @@ execute.
 Here, `pwd` is the command. It prints the path of the current working
 directory.
 
-### Option
+##### Option
 
 An option modifies how a command behaves.
 
 `grep -n error file.txt`
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 grep -n error file.txt
@@ -468,18 +487,18 @@ grep -n error file.txt
 │    │  └──────── Pattern to search for
 │    └─────────── Option: show line numbers
 └──────────────── Command
+```
 
 Options belong to the command that interprets them. The same option can
 mean different things for different commands.
-```
 
-### Argument
+##### Argument
 
 An argument provides information to a command.
 
 `cp source.txt backup.txt`
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 cp source.txt backup.txt
@@ -487,14 +506,16 @@ cp source.txt backup.txt
 │  │          └── Destination argument
 │  └───────────── Source argument
 └──────────────── Command
+```
 
 Arguments can tell a command what to work with, what to search for,
 where to operate, or other data it needs.
-```
 
-────── o ──────
+---
 
-## ⌨️ SHORTCUTS
+<a id="learning-fundamentals-shortcuts"></a>
+
+#### ⌨️ SHORTCUTS
 
 A shortcut is a key combination interpreted by the program you are
 currently using.
@@ -510,9 +531,11 @@ You did not type a shell command. You triggered an action inside Nano.
 Shortcuts are context-dependent: the same key combination can behave
 differently in different programs.
 
-────── o ──────
+---
 
-## 🚦 EXIT CODES
+<a id="learning-fundamentals-exit-codes"></a>
+
+#### 🚦 EXIT CODES
 
 Programs return an exit status when they finish.
 
@@ -544,6 +567,8 @@ Some useful codes encountered in real workflows:
 
 `127` → Common shell status for command not found
 
+`2` → For GNU grep, an error (for example, an unreadable file)
+
 `128` → Seen when Git terminates with a fatal error; the message
 explains the actual cause
 
@@ -556,11 +581,17 @@ So `[1]` is not automatically guilty.
 
 Pedro can remain free... for now.
 
-━━━━━━━━━━━━━━━━━━━━━━ 💻 TERMINAL ━━━━━━━━━━━━━━━━━━━━━━
+<a id="learning-terminal"></a>
 
-## 🧭 NAVIGATION
+### 💻 TERMINAL
 
-### 📍 Find your current location
+[🧭 Navigation](#learning-terminal-navigation) · [📄 Files & Directories](#learning-terminal-files-directories) · [🔎 Search](#learning-terminal-search) · [📋 Clipboard](#learning-terminal-clipboard) · [🔀 Redirection & Pipes](#learning-terminal-redirection-pipes) · [🔣 Symbols & Sequences](#learning-terminal-symbols-sequences)
+
+<a id="learning-terminal-navigation"></a>
+
+#### 🧭 NAVIGATION
+
+##### 📍 Find your current location
 
 1. What do I want to do?
 
@@ -582,83 +613,85 @@ Find out which directory I am currently in.
 
 The terminal showed your location. Nothing was modified.
 
-────── o ──────
+---
 
-### 👀 See what is here
+##### 👀 See what is here
 
 `ls`
 
 Lists files and directories in the current location. It only reads the
 directory; it does not modify its contents.
 
-────── o ──────
+---
 
-### 🚶 Move into a directory
+##### 🚶 Move into a directory
 
 `cd projects`
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 cd projects
 │  │
 │  └── Destination directory
 └───── Command
-
-`cd` changes the shell's current directory.
 ```
 
-────── o ──────
+`cd` changes the shell's current directory.
 
-### ⬆️ Move to the parent directory
+---
+
+##### ⬆️ Move to the parent directory
 
 `cd ..`
 
 `..` represents the parent of the current directory: exactly one level
 up.
 
-## 📄 FILES & DIRECTORIES
+<a id="learning-terminal-files-directories"></a>
 
-### 👁️ Display a complete file
+#### 📄 FILES & DIRECTORIES
+
+##### 👁️ Display a complete file
 
 `cat script.py`
 
 `cat` writes the file's contents to standard output. It does not edit
 the file.
 
-────── o ──────
+---
 
-### 📖 Read a file without editing it
+##### 📖 Read a file without editing it
 
 `less README.md`
 
 `less` opens a text viewer that lets you navigate through the file while
 leaving it unchanged.
 
-────── o ──────
+---
 
-### ✏️ Open or create a file for editing
+##### ✏️ Open or create a file for editing
 
 `nano script.py`
 
 Nano opens the file in a text editor. If the named file does not exist,
 Nano can create it when you save.
 
-────── o ──────
+---
 
-### 📁 Create a directory
+##### 📁 Create a directory
 
 `mkdir examples`
 
 Creates a directory named `examples`.
 
-────── o ──────
+---
 
-### 🏗️ Create a complete directory path
+##### 🏗️ Create a complete directory path
 
 `mkdir -p project/examples`
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 mkdir -p project/examples
@@ -666,17 +699,17 @@ mkdir -p project/examples
 │     │  └── Path
 │     └───── Option
 └─────────── Command
-
-With `-p`, `mkdir` can also create missing parent directories.
 ```
 
-────── o ──────
+With `-p`, `mkdir` can also create missing parent directories.
 
-### 📄 Copy a file
+---
+
+##### 📄 Copy a file
 
 `cp source.txt backup.txt`
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 cp source.txt backup.txt
@@ -684,38 +717,41 @@ cp source.txt backup.txt
 │  │          └── Destination
 │  └───────────── Source
 └──────────────── Command
+```
 
-The original remains in place and a copy is created at the destination.
+The original remains in place. An existing destination file may be overwritten.
+Use `cp -i -- source.txt backup.txt` for an overwrite prompt and confirm the
+backup exists with the content you intended before relying on it.
 
 Using a `.bak` suffix is a common convention for identifying a backup
 copy:
 
-`cp script.py script.py.bak`
+`cp -i -- script.py script.py.bak`
 
 `.bak` is only a naming convention. It has no magical backup behavior.
-```
 
-────── o ──────
+---
 
-### 🚚 Move or rename
+##### 🚚 Move or rename
 
 `mv old.txt new.txt`
 
 When source and destination are in the same directory, this effectively
-renames the file.
+renames the file. An existing destination can be overwritten; `mv -i -- old.txt new.txt`
+asks first. These examples assume regular files, not destination directories.
 
-────── o ──────
+---
 
-### 🗑️ Delete a file
+##### 🗑️ Delete a file
 
 `rm temporary.txt`
 
 `rm` deletes directly. It does not automatically create a backup or move
 the file to a recycle bin.
 
-────── o ──────
+---
 
-### 🗑️ Delete a directory and its contents
+##### 🗑️ Delete a directory and its contents
 
 `rm -r directory`
 
@@ -723,9 +759,11 @@ the file to a recycle bin.
 
 Be careful: this can remove an entire directory tree.
 
-## 🔎 SEARCH
+<a id="learning-terminal-search"></a>
 
-### 🔍 Search inside a file
+#### 🔎 SEARCH
+
+##### 🔍 Search inside a file
 
 `grep error script.py`
 
@@ -735,21 +773,26 @@ To include line numbers:
 
 `grep -n error script.py`
 
-To search for TAB characters using PCRE syntax:
+`grep` treats the pattern as a regular expression; use `grep -Fn -- "a.b" file`
+for a literal string and quote patterns containing shell metacharacters.
+
+To search for TAB characters using PCRE syntax (GNU grep with PCRE support):
 
 `grep -nP '\t' script.py`
 
-## 📋 CLIPBOARD
+<a id="learning-terminal-clipboard"></a>
+
+#### 📋 CLIPBOARD
 
 `wl-copy` copies data to the Wayland clipboard.
 
 That makes it Wayland-specific rather than a universal shell command.
 
-### Copy a complete file
+##### Copy a complete file
 
 `cat script.py | wl-copy`
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 cat script.py | wl-copy
@@ -760,39 +803,47 @@ cat script.py | wl-copy
 └────────────────── Produces the file contents
 ```
 
-### Copy normal output and errors
+##### Copy normal output and errors
 
 `command 2>&1 | wl-copy`
 
 `2>&1` merges standard error into standard output before the pipe sends
-the combined stream to `wl-copy`.
+the combined stream to `wl-copy`. This changes the session clipboard; it does
+not create a backup. The command may fail when no Wayland session is available.
 
-## 🔀 REDIRECTION & PIPES
+<a id="learning-terminal-redirection-pipes"></a>
 
-### `|` --- Pipe
+#### 🔀 REDIRECTION & PIPES
+
+##### `|` --- Pipe
 
 `command1 | command2`
 
-The first command produces data. The pipe sends that data to the second
-command.
+The pipe connects the first command's standard output to the second command's
+standard input; standard error is separate unless redirected.
+A pipeline can hide an earlier failure: Bash normally reports its last command's
+status. In Bash, `set -o pipefail` changes that behavior; Fish also exposes
+individual statuses through `$pipestatus`. Do not assume copying output proves success.
 
-### `>` --- Redirect output
+##### `>` --- Redirect output
 
 `command > file`
 
 Instead of displaying standard output normally, the shell writes it to
 `file`.
 
-Be aware that `>` replaces the destination file's existing contents.
+Be aware that `>` truncates an existing destination before the program starts,
+even if the program later fails. Never use the same file as input and redirected
+output. `>>` appends instead, but still changes the file.
 
-### `&&` --- Continue only after success
+##### `&&` --- Continue only after success
 
 `command1 && command2`
 
 The second command runs only if the first returns a successful exit
 status.
 
-### `2>&1` --- Merge error output with standard output
+##### `2>&1` --- Merge error output with standard output
 
 File descriptor `1` is standard output and `2` is standard error.
 
@@ -806,7 +857,9 @@ mental model is:
 
 → Send normal output and errors through the pipe.
 
-## 🔣 SYMBOLS & SEQUENCES
+<a id="learning-terminal-symbols-sequences"></a>
+
+#### 🔣 SYMBOLS & SEQUENCES
 
 `/` → Separates components in a path.
 
@@ -834,23 +887,37 @@ depends on the tool or language reading it.
 
 Example:
 
-rm file1.csv \
+```sh
+printf '%s\n' \
+    file1.csv \
     file2.csv \
     file3.csv
+```
 
 The shell treats this as one command.
 
 Visually it spans several lines. Logically it is:
 
-`rm file1.csv file2.csv file3.csv`
+`printf '%s\n' file1.csv file2.csv file3.csv`
 
-━━━━━━━━━━━━━━━━━━━━━━━ 🐍 PYTHON ━━━━━━━━━━━━━━━━━━━━━━━
+It prints the names, without deleting files. The backslash must immediately
+precede the newline; trailing spaces break the continuation.
 
-## ▶️ RUNNING YOUR FIRST PROGRAM
+<a id="learning-python"></a>
+
+### 🐍 PYTHON
+
+[▶️ Running Your First Program](#learning-python-running-your-first-program) · [🔍 Checking Syntax](#learning-python-checking-syntax)
+
+<a id="learning-python-running-your-first-program"></a>
+
+#### ▶️ RUNNING YOUR FIRST PROGRAM
 
 Suppose `hello.py` contains:
 
-`print("Hello")`
+```python
+print("Hello")
+```
 
 Run it with:
 
@@ -860,26 +927,28 @@ The terminal prints:
 
 `Hello`
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 python hello.py
 │      │
 │      └── Python file to run
 └───────── Python interpreter command
+```
 
 A Python program can also receive command-line arguments:
 
 `python script.py input.csv`
 
 Inside Python, tools such as `sys.argv` can access those arguments.
-```
 
-## 🔍 CHECKING SYNTAX
+<a id="learning-python-checking-syntax"></a>
+
+#### 🔍 CHECKING SYNTAX
 
 `python -m py_compile script.py`
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 python -m py_compile script.py
@@ -888,18 +957,26 @@ python -m py_compile script.py
 │      │  └───────────── Module
 │      └──────────────── Run a module
 └─────────────────────── Python command
+```
 
 If the syntax is valid, this normally produces no terminal output.
 
 If Python encounters a syntax problem, it reports the error.
 
 This checks whether Python can compile the file; it does not run the
-script's normal application flow.
-```
+script's normal application flow. It normally writes a `.pyc` file under
+`__pycache__/`. It does not test runtime behavior, imports, or logic; a successful
+compile is not a passing application test.
 
-━━━━━━━━━━━━━━━━━━━━ 🧬 GIT & GITHUB ━━━━━━━━━━━━━━━━━━━━
+<a id="learning-git"></a>
 
-## 🌎 GIT VS GITHUB
+### 🧬 GIT & GITHUB
+
+[🌎 Git vs GitHub](#learning-git-git-vs-github) · [🧠 Mental Model](#learning-git-mental-model) · [📦 Creating A Repository](#learning-git-creating-a-repository) · [🔎 Checking Status](#learning-git-checking-status) · [📥 Staging Changes](#learning-git-staging-changes) · [💾 Creating A Commit](#learning-git-creating-a-commit) · [🌿 Branches](#learning-git-branches) · [🪪 Configuring Identity](#learning-git-configuring-identity) · [🙈 .gitignore](#learning-git-gitignore) · [🌎 Connecting GitHub](#learning-git-connecting-github) · [🔐 Authentication](#learning-git-authentication) · [🚀 First Push](#learning-git-first-push) · [🔁 Everyday Workflow](#learning-git-everyday-workflow)
+
+<a id="learning-git-git-vs-github"></a>
+
+#### 🌎 GIT VS GITHUB
 
 Git is the version-control system running on your machine.
 
@@ -912,9 +989,11 @@ You can use Git without GitHub.
 
 GitHub uses Git repositories, but Git and GitHub are not the same thing.
 
-────── o ──────
+---
 
-## 🧠 MENTAL MODEL
+<a id="learning-git-mental-model"></a>
+
+#### 🧠 MENTAL MODEL
 
 A basic Git workflow looks like this:
 
@@ -950,7 +1029,7 @@ A basic Git workflow looks like this:
 
              ┌─────────────────┐
              │     GITHUB      │
-             │ remote repository
+             │ remote repository│
              └─────────────────┘
 ```
 
@@ -963,9 +1042,11 @@ A commit records a snapshot in the local repository's history.
 A remote is another repository your local repository can communicate
 with.
 
-────── o ──────
+---
 
-## 📦 CREATING A REPOSITORY
+<a id="learning-git-creating-a-repository"></a>
+
+#### 📦 CREATING A REPOSITORY
 
 Inside a project directory:
 
@@ -976,20 +1057,25 @@ and history.
 
 Do not treat `.git/` as ordinary project content to casually edit.
 
-────── o ──────
+---
 
-## 🔎 CHECKING STATUS
+<a id="learning-git-checking-status"></a>
+
+#### 🔎 CHECKING STATUS
 
 `git status`
 
 This tells you what Git currently sees: untracked files, modified files,
 staged changes, and whether the working tree is clean.
 
-A clean working tree means Git sees no changes waiting to be committed.
+A clean status does not list ignored files by default. It is not proof that
+there are no local artifacts or that a project is ready to publish.
 
-────── o ──────
+---
 
-## 📥 STAGING CHANGES
+<a id="learning-git-staging-changes"></a>
+
+#### 📥 STAGING CHANGES
 
 Stage one file:
 
@@ -1001,15 +1087,18 @@ Stage the current set of changes in the current directory scope:
 
 Staging does not publish anything and does not create a commit.
 
-It selects changes for the next commit.
+It selects changes for the next commit. Later edits are not staged automatically.
+Before committing, inspect `git diff --cached`; use `git diff` for unstaged edits.
 
-────── o ──────
+---
 
-## 💾 CREATING A COMMIT
+<a id="learning-git-creating-a-commit"></a>
+
+#### 💾 CREATING A COMMIT
 
 `git commit -m "Initial release"`
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 git commit -m "Initial release"
@@ -1018,6 +1107,7 @@ git commit -m "Initial release"
 │   │      └───── Message option
 │   └──────────── Subcommand
 └──────────────── Git executable
+```
 
 A commit records the staged changes in local Git history.
 
@@ -1025,11 +1115,12 @@ The first commit in a repository is commonly called the root commit.
 
 Git identifies commits with hashes; interfaces often show a shortened
 form of the full ID.
-```
 
-────── o ──────
+---
 
-## 🌿 BRANCHES
+<a id="learning-git-branches"></a>
+
+#### 🌿 BRANCHES
 
 A branch is a movable name pointing into a line of development.
 
@@ -1037,15 +1128,34 @@ To rename the current branch to `main`:
 
 `git branch -m main`
 
-For a new simple project, `main` can serve as the primary branch.
+For a new simple project, `main` can serve as the primary branch. Renaming a
+local branch does not rename the remote branch.
 
-────── o ──────
+For changes to an existing project, work on a separate branch:
 
-## 🪪 CONFIGURING IDENTITY
+```sh
+git switch -c docs-improvement
+```
+
+This creates a branch at the current commit. Check `git status` first; uncommitted
+changes may carry over. Use `git switch main` to return when appropriate.
+
+---
+
+<a id="learning-git-configuring-identity"></a>
+
+#### 🪪 CONFIGURING IDENTITY
 
 Git needs an author name and email before it can create commits.
 
-Set them globally:
+For this repository only (run inside it):
+
+```sh
+git config user.name "Your Name"
+git config user.email "you@example.com"
+```
+
+To intentionally apply the same defaults across your repositories, set them globally:
 
 `git config --global user.name "Your Name"`
 
@@ -1058,13 +1168,14 @@ The configured email can appear in commit metadata. Use an address you
 are comfortable associating with your commits, or use an appropriate
 privacy-preserving address provided by your hosting service.
 
-### A useful failure
+##### A useful failure
 
-A real first workflow can look like this:
+An illustrative first workflow:
 
-git init ↓ git add . ↓ git commit ↓ \[128\] 💀 Git reports a fatal
-problem: author identity is unknown ↓ configure user.name and user.email
-↓ git commit ↓ SUCCESS
+```text
+git init → git add . → git commit → [128] author identity unknown
+        → configure user.name and user.email → retry commit
+```
 
 The failed commit does not automatically erase the staging area.
 After fixing the identity problem, the staged changes can still be
@@ -1073,18 +1184,22 @@ committed.
 `128` alone does not mean "missing identity." It is a status Git can use
 for fatal failures; the accompanying message tells you the actual cause.
 
-────── o ──────
+---
 
-## 🙈 .GITIGNORE
+<a id="learning-git-gitignore"></a>
+
+#### 🙈 .GITIGNORE
 
 A `.gitignore` file contains patterns for files and directories Git
 should leave untracked.
 
 Example:
 
+```gitignore
 *.bak
 __pycache__/
 *.pyc
+```
 
 `*.bak` → Match names ending in `.bak`.
 
@@ -1092,18 +1207,24 @@ __pycache__/
 
 `*.pyc` → Ignore Python bytecode files.
 
+Ignore rules do not remove files already tracked or erase committed secrets.
+Review staged files before publishing. If a real credential leaks, revoke or
+rotate it; adding its filename to `.gitignore` does not undo the exposure.
+
 `.gitignore` is useful for generated files, local artifacts, backups,
 caches, and other content that does not belong in repository history.
 
-────── o ──────
+---
 
-## 🌎 CONNECTING GITHUB
+<a id="learning-git-connecting-github"></a>
+
+#### 🌎 CONNECTING GITHUB
 
 A local repository can be connected to a remote repository:
 
 `git remote add origin URL`
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 git remote add origin URL
@@ -1113,6 +1234,7 @@ git remote add origin URL
 │   │      └───────────── Action
 │   └──────────────────── Remote subcommand
 └──────────────────────── Git executable
+```
 
 `origin` is a conventional name. It is not a special GitHub account or
 server.
@@ -1122,11 +1244,12 @@ Check configured remotes with:
 `git remote -v`
 
 You may see separate fetch and push entries for the same remote.
-```
 
-────── o ──────
+---
 
-## 🔐 AUTHENTICATION
+<a id="learning-git-authentication"></a>
+
+#### 🔐 AUTHENTICATION
 
 GitHub authentication is separate from Git's local author identity.
 
@@ -1145,13 +1268,17 @@ with status `130`.
 That is not GitHub rejecting you. It means you interrupted the running
 process.
 
-────── o ──────
+---
 
-## 🚀 FIRST PUSH
+<a id="learning-git-first-push"></a>
+
+#### 🚀 FIRST PUSH
+
+For a new repository with at least one commit on `main`, and a remote you own:
 
 `git push -u origin main`
 
-### 🧩 Visual Breakdown
+##### 🧩 Visual Breakdown
 
 ```text
 git push -u origin main
@@ -1161,30 +1288,45 @@ git push -u origin main
 │   │    └──────────── Set upstream
 │   └───────────────── Subcommand
 └───────────────────── Git executable
+```
 
 This sends commits from local `main` to `origin` and configures an
-upstream relationship.
+upstream relationship. It can publish all reachable committed content, including
+anything sensitive in earlier commits. If rejected because the remote has its
+own history, inspect and reconcile it; do not reach for a force push.
 
 After that, the usual push can often be shortened to:
 
 `git push`
+
+---
+
+<a id="learning-git-everyday-workflow"></a>
+
+#### 🔁 EVERYDAY WORKFLOW
+
+Once the repository is configured, a reviewable workflow is:
+
+```text
+Create a work branch → Edit → Inspect diff → Stage selected files
+                    → Inspect staged diff → Commit → Push branch → Open PR
 ```
 
-────── o ──────
+After creating `docs-improvement` and editing the documentation:
 
-## 🔁 EVERYDAY WORKFLOW
-
-Once the repository is configured, a simple workflow is:
-
-Edit files
-    ↓
+```sh
 git status
-    ↓
-git add .
-    ↓
-git commit -m "Describe the change"
-    ↓
-git push
+git diff
+git add README.md ARSENAL.md
+git diff --cached
+git commit -m "docs: clarify command examples"
+git push -u origin docs-improvement
+gh pr create --base main --head docs-improvement
+```
+
+Run each step after reviewing the preceding result. The last two commands publish
+the branch and create a PR on GitHub; they require authentication and permission.
+Adjust branch names to your repository. Opening a PR does not merge it.
 
 The mental model is:
 
@@ -1199,11 +1341,21 @@ each command crosses.
 
 `git push` → Local history to the remote repository.
 
-━━━━━━━━━━━━━━━━━━━━━━━━ ✏️ NANO ━━━━━━━━━━━━━━━━━━━━━━━━
+<a id="learning-nano"></a>
 
-## 🧭 NAVIGATION
+### ✏️ NANO
 
-### 🔍 Search for text
+These are traditional bindings. Nano 8+ also supports `Ctrl + F` for forward
+search. Custom bindings or modernbindings mode can differ; `Ctrl + G` opens
+help with traditional bindings. Check the shortcut bar in your own session.
+
+[🧭 Navigation](#learning-nano-navigation) · [✏️ Editing](#learning-nano-editing) · [💾 Save & Exit](#learning-nano-save-exit)
+
+<a id="learning-nano-navigation"></a>
+
+#### 🧭 NAVIGATION
+
+##### 🔍 Search for text
 
 Inside Nano:
 
@@ -1225,7 +1377,9 @@ To go directly to a line and column:
 
 Nano shortcuts act inside Nano. They are not shell commands.
 
-## ✏️ EDITING
+<a id="learning-nano-editing"></a>
+
+#### ✏️ EDITING
 
 `Alt + A` → Start or end text selection.
 
@@ -1243,7 +1397,9 @@ context.
 Shortcut availability can depend on Nano version, terminal behavior, and
 keyboard layout.
 
-## 💾 SAVE & EXIT
+<a id="learning-nano-save-exit"></a>
+
+#### 💾 SAVE & EXIT
 
 `Ctrl + O` → Start Nano's Write Out action.
 
@@ -1258,9 +1414,15 @@ If there are unsaved changes, Nano can ask what you want to do.
 
 It does not universally mean "close Nano."
 
-━━━━━━━━━━━━━━━━━━━━━━━━ 🐟 FISH ━━━━━━━━━━━━━━━━━━━━━━━━
+<a id="learning-fish"></a>
 
-## 🖥️ SESSIONS
+### 🐟 FISH
+
+[🖥️ Sessions](#learning-fish-sessions) · [⚙️ Functions](#learning-fish-functions)
+
+<a id="learning-fish-sessions"></a>
+
+#### 🖥️ SESSIONS
 
 `exit`
 
@@ -1269,28 +1431,37 @@ Ends the current Fish shell session.
 If that shell is the only process keeping a terminal window open, the
 terminal application may then close the window.
 
-## ⚙️ FUNCTIONS
+<a id="learning-fish-functions"></a>
+
+#### ⚙️ FUNCTIONS
 
 A Fish function lets you give a reusable sequence of shell commands a
 name.
 
 Example:
 
-function hello echo "Hello" end
+```fish
+function hello
+    echo "Hello"
+end
 
-### 🧩 Visual Breakdown
+hello
+```
+
+Expected output: `Hello`. Run this in Fish; newlines (or semicolons) separate commands.
+
+##### 🧩 Visual Breakdown
 
 ```text
 function hello
 │        │
 │        └── Function name
 └─────────── Begin function definition
-
     echo "Hello"
     └── Command executed by the function
-
 end
 └── End function definition
+```
 
 Once the function exists in the current Fish session:
 
@@ -1299,73 +1470,92 @@ Once the function exists in the current Fish session:
 saves that defined function so Fish can autoload it in future sessions.
 
 `funcsave` does not invent the function for you. The function must
-already be defined.
+already be defined. It writes to your Fish configuration directory and can
+replace a saved function of the same name; use a name you intend to keep.
+
+<a id="learning-utilities"></a>
+
+### 🧰 UTILITIES
+
+[🧹 Indentation Cleanup](#learning-utilities-indentation-cleanup)
+
+<a id="learning-utilities-indentation-cleanup"></a>
+
+#### 🧹 INDENTATION CLEANUP
+
+Suppose a file contains TAB characters. First inspect them:
+
+```sh
+grep -nP '\t' file.py
 ```
 
-━━━━━━━━━━━━━━━━━━━━━━ 🧰 UTILITIES ━━━━━━━━━━━━━━━━━━━━━
+This finds tabs anywhere, not just indentation. `grep` returns 1 if none match;
+that is not a reason to run a conversion blindly.
 
-## 🧹 INDENTATION CLEANUP
+`expand -t 4` uses tab stops every four columns; it does not replace every tab
+with exactly four spaces. `-i` limits conversion to leading whitespace, which
+avoids changing tabs after nonblank text. Neither option understands your language:
+leading tabs inside multiline strings are still data, and Make recipes can need tabs.
 
-Suppose a source file contains TAB characters and you want to normalize
-them using tab stops of width 4.
+Preview without writing any file:
 
-First, inspect the file:
-
-`grep -nP '\t' file.py`
-
-If matches appear, their line numbers help you see where TAB characters
-exist.
-
-Then create a backup:
-
-`cp file.py file.py.bak`
-
-Now generate transformed content:
-
-`expand -t 4 file.py > file.tmp`
-
-`expand -t 4` expands TAB characters according to tab stops every four
-columns.
-
-It does not mean that every TAB is blindly replaced by exactly four
-spaces.
-
-Finally:
-
-`mv file.tmp file.py`
-
-replaces the original path with the transformed temporary file.
-
-### 🧩 Visual Breakdown
-
-```text
-cp file.py file.py.bak &&
-expand -t 4 file.py > file.tmp &&
-mv file.tmp file.py
-
-First, `cp` creates the backup.
-
-Then `expand` generates the transformed content.
-
-`>` writes that output to a temporary file.
-
-If that succeeds, `&&` allows the next command to run.
-
-Finally, `mv` replaces the original path with the temporary file.
-
-So yes, the sequence looks like a satanic spell the first time you see
-it.
-
-It isn't.
-
-It's just several boring little commands wearing a trench coat.
-
-Before running destructive or replacement operations on important files,
-verify your paths and keep a backup you know how to restore.
+```sh
+expand -i -t 4 -- file.py
 ```
 
-```text
-══════════════════════════════════════════════════════════
-                  🏁 END OF LEARNING MODE                  
-══════════════════════════════════════════════════════════
+To save a candidate, the following block is **Bash syntax**, not Fish. Run it in
+Bash in a directory you control, using a regular input file. It refuses an
+existing candidate destination via Bash's noclobber option:
+
+```bash
+(
+    set -C
+    expand -i -t 4 -- file.py > file.spaces.py
+)
 ```
+
+The subshell keeps `set -C` from changing the parent shell's options. The original
+stays untouched. A failed conversion can leave a partial candidate: check the exit
+status and review the output before using it. Noclobber is not a transactional
+backup system or a defense against a hostile process changing your directory.
+
+Review the changes:
+
+```sh
+diff -u -- file.py file.spaces.py
+```
+
+For `diff`, 0 means identical, 1 means differences, and values above 1 mean trouble.
+Do not chain the review to a replacement with `&&`: a useful diff normally returns 1.
+For Python, compile the candidate and run the project's actual tests as appropriate.
+Compilation alone cannot prove that string contents or behavior were preserved.
+
+Only after reviewing should you decide whether to apply the edit in your editor
+or version-controlled working tree. Keep a separate verified backup if needed;
+no automatic `mv` is included here. The candidate and any bytecode are disposable
+artifacts, not files to publish accidentally.
+
+So yes, command sequences can look like a satanic spell the first time you see them.
+They're just several boring little commands wearing a trench coat. Inspect the pockets.
+
+[Back to the map](#map)
+
+<a id="references"></a>
+
+## References and maintenance
+
+Use the upstream documentation for complete behavior and version differences:
+
+- [GNU Coreutils](https://www.gnu.org/software/coreutils/manual/coreutils.html): file operations, `expand`, `printf`.
+- [GNU grep](https://www.gnu.org/software/grep/manual/grep.html): matching, PCRE support, exit status.
+- [Bash manual](https://www.gnu.org/software/bash/manual/bash.html): redirections, pipelines and noclobber.
+- [Python py_compile](https://docs.python.org/3/library/py_compile.html).
+- [Git add](https://git-scm.com/docs/git-add), [gitignore](https://git-scm.com/docs/gitignore), [push](https://git-scm.com/docs/git-push).
+- [GitHub CLI authentication](https://cli.github.com/manual/gh_auth_login).
+- [GNU Nano manual](https://www.nano-editor.org/dist/latest/nano.html).
+- [Fish language](https://fishshell.com/docs/current/language.html) and [funcsave](https://fishshell.com/docs/current/cmds/funcsave.html).
+- [wl-clipboard](https://github.com/bugaevc/wl-clipboard).
+
+For scope, review notes and how to improve an entry, see the [README](README.md)
+and [contribution guide](CONTRIBUTING.md). This manual is a selected reference,
+not a guarantee that every command works on every shell, version or platform.
