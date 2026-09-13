@@ -72,3 +72,37 @@ framework. Recheck affected examples when editing them, following
 [CONTRIBUTING.md](../CONTRIBUTING.md). This dated review is evidence of the scope
 above, not an evergreen guarantee. No customer outcomes, adoption metrics or
 professional experience claims have been added.
+
+## Roadmap documentation follow-up — 2026-09-13
+
+Reviewed `84d4f02eff6d0dc510cdf72049f5104006089866` before editing, searching
+both manual modes and their surrounding explanations. `git status`, branches,
+remotes and Fish functions were already covered. Fish `type`, `git fetch`,
+`git pull`, stale remote-tracking comparisons and fast-forward were missing;
+the remote listing's `(fetch)` label was not an explanation of `git fetch`.
+No open PRs were returned by the repository API at the initial check.
+
+Expanded the existing status entry and added linked Fetch & Pull and Fish
+Command Lookup subsections in both modes. Kept the function-definition material
+in its existing section and linked to it. Explained that Fish aliases report as
+functions, and that remote-tracking references are local snapshots. The Git
+walkthrough uses explicit `--ff-only` and documents divergence and write effects.
+References are the upstream Fish type/alias and Git status/fetch/pull/merge
+manuals linked beside the new entries.
+
+Focused checks used Git 2.55.0 and Fish 4.9.3:
+
+- A disposable bare remote and two clones reproduced stale “up to date” status,
+  then “behind by 1” after fetch, with the reader's HEAD/files unchanged.
+- Fast-forward pull reached the remote commit without a merge commit. After
+  divergent commits, `pull --ff-only` failed and preserved the local branch/files.
+- Isolated no-config Fish verified builtin, executable, function and alias
+  categories, all-match lookup and missing-name failure. No functions were saved.
+- Rendered Markdown, inspected the new section structure, checked relative links,
+  unique explicit anchors, closed fences, shell syntax and `git diff --check`.
+
+These tests used local disposable repositories, not GitHub authentication or
+network-failure scenarios. Custom refspecs, hooks and arbitrary pull configuration
+were not exhaustively tested. The personal `arsenal` function and the user's
+project checkout were not modified. No new CI, dependencies or permanent test
+framework were added. The portfolio review above retains its original scope/date.

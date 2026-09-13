@@ -217,7 +217,7 @@ the program; normally writes bytecode under `__pycache__/`
 
 ### 🧬 GIT & GITHUB
 
-[📦 Repository](#quick-git-repository) · [🔎 Status](#quick-git-status) · [📥 Staging](#quick-git-staging) · [💾 Commits](#quick-git-commits) · [🌿 Branches](#quick-git-branches) · [🪪 Identity](#quick-git-identity) · [🙈 .gitignore](#quick-git-gitignore) · [🌎 Remotes](#quick-git-remotes) · [🚀 Push](#quick-git-push) · [🐙 GitHub CLI](#quick-git-github-cli)
+[📦 Repository](#quick-git-repository) · [🔎 Status](#quick-git-status) · [🔄 Fetch & Pull](#quick-git-fetch-pull) · [📥 Staging](#quick-git-staging) · [💾 Commits](#quick-git-commits) · [🌿 Branches](#quick-git-branches) · [🪪 Identity](#quick-git-identity) · [🙈 .gitignore](#quick-git-gitignore) · [🌎 Remotes](#quick-git-remotes) · [🚀 Push](#quick-git-push) · [🐙 GitHub CLI](#quick-git-github-cli)
 
 <a id="quick-git-repository"></a>
 
@@ -231,8 +231,27 @@ the program; normally writes bytecode under `__pycache__/`
 
 #### 🔎 STATUS
 
-`git status` → Show the current state of the working tree and staging
-area
+`git status` → Show working tree/staging state and, when configured, branch
+comparison with the locally stored upstream reference; does not contact GitHub
+
+---
+
+<a id="quick-git-fetch-pull"></a>
+
+#### 🔄 FETCH & PULL
+
+`git fetch` → Download remote history and refresh remote-tracking references;
+remote selection follows configuration
+
+`git fetch origin` → Fetch explicitly from `origin`; with standard tracking
+configuration, updates `origin/main` without moving local `main` or its files
+
+`git pull --ff-only` → Fetch, then advance the current branch to its upstream
+only if no divergent history needs integrating; can update working files
+
+**Fast-forward:** move a branch to a descendant commit without a merge commit.
+A clean working tree and a fresh remote reference answer different questions.
+See [the stale-reference example](#learning-git-fetch-pull).
 
 ---
 
@@ -379,13 +398,28 @@ help with traditional bindings. Check the shortcut bar in your own session.
 
 ### 🐟 FISH
 
-[🖥️ Sessions](#quick-fish-sessions) · [⚙️ Functions](#quick-fish-functions)
+[🖥️ Sessions](#quick-fish-sessions) · [🔎 Command Lookup](#quick-fish-command-lookup) · [⚙️ Functions](#quick-fish-functions)
 
 <a id="quick-fish-sessions"></a>
 
 #### 🖥️ SESSIONS
 
 `exit` → Exit the current Fish shell session
+
+---
+
+<a id="quick-fish-command-lookup"></a>
+
+#### 🔎 COMMAND LOOKUP
+
+`type name` → Inspect how Fish resolves a command name without invoking it
+
+`type -t name` → Print its category: `function`, `builtin` or `file` (executable)
+
+`type -a name` → Show all matching definitions, including shadowed commands
+
+Fish aliases are functions; `type -t` does not report a separate `alias` category.
+See [examples and limits](#learning-fish-command-lookup).
 
 ---
 
@@ -972,7 +1006,7 @@ compile is not a passing application test.
 
 ### 🧬 GIT & GITHUB
 
-[🌎 Git vs GitHub](#learning-git-git-vs-github) · [🧠 Mental Model](#learning-git-mental-model) · [📦 Creating A Repository](#learning-git-creating-a-repository) · [🔎 Checking Status](#learning-git-checking-status) · [📥 Staging Changes](#learning-git-staging-changes) · [💾 Creating A Commit](#learning-git-creating-a-commit) · [🌿 Branches](#learning-git-branches) · [🪪 Configuring Identity](#learning-git-configuring-identity) · [🙈 .gitignore](#learning-git-gitignore) · [🌎 Connecting GitHub](#learning-git-connecting-github) · [🔐 Authentication](#learning-git-authentication) · [🚀 First Push](#learning-git-first-push) · [🔁 Everyday Workflow](#learning-git-everyday-workflow)
+[🌎 Git vs GitHub](#learning-git-git-vs-github) · [🧠 Mental Model](#learning-git-mental-model) · [📦 Creating A Repository](#learning-git-creating-a-repository) · [🔎 Checking Status](#learning-git-checking-status) · [🔄 Fetch & Pull](#learning-git-fetch-pull) · [📥 Staging Changes](#learning-git-staging-changes) · [💾 Creating A Commit](#learning-git-creating-a-commit) · [🌿 Branches](#learning-git-branches) · [🪪 Configuring Identity](#learning-git-configuring-identity) · [🙈 .gitignore](#learning-git-gitignore) · [🌎 Connecting GitHub](#learning-git-connecting-github) · [🔐 Authentication](#learning-git-authentication) · [🚀 First Push](#learning-git-first-push) · [🔁 Everyday Workflow](#learning-git-everyday-workflow)
 
 <a id="learning-git-git-vs-github"></a>
 
@@ -1070,6 +1104,69 @@ staged changes, and whether the working tree is clean.
 
 A clean status does not list ignored files by default. It is not proof that
 there are no local artifacts or that a project is ready to publish.
+
+Branch comparisons use a local upstream reference, such as `origin/main`.
+They do not query GitHub: “up to date” can describe an outdated snapshot.
+See [fetch and pull](#learning-git-fetch-pull) before concluding that a local
+branch includes the latest remote commits.
+
+---
+
+<a id="learning-git-fetch-pull"></a>
+
+#### 🔄 FETCH, STATUS & PULL
+
+| Command | Practical question / effect |
+| --- | --- |
+| `git status` | What changed locally, and how does this branch compare with its locally stored upstream? No network refresh |
+| `git fetch origin` | What history is available from `origin` now? Downloads objects and refreshes tracking references with standard configuration; leaves the current branch and working files in place |
+| `git pull --ff-only` | Can this branch advance to its upstream? Fetches first, then updates the branch and files if a fast-forward is possible; refuses divergent histories |
+
+`origin` is a remote name. `origin/main` is a **local remote-tracking reference**,
+not a live view of GitHub. Bare `git fetch` chooses remotes according to
+configuration; naming `origin` makes the source explicit here.
+
+Example: you are on `main`, tracking `origin/main`, with a clean working tree.
+Someone has added one commit on GitHub since your last fetch:
+
+```text
+Before fetch:
+Local main / origin/main: A
+GitHub main:              A──B
+
+After fetch:
+Local main:               A
+Local origin/main:        A──B
+
+After fast-forward pull:
+Local main / origin/main: A──B
+```
+
+1. Run `git status`: it may say `up to date with 'origin/main'`, because both
+   local references still point to A. Wording depends on locale/version.
+2. Run `git fetch origin`: refresh the local remote-tracking reference to B.
+3. Run `git status` again: it now reports that `main` is behind by one commit
+   and can be fast-forwarded. The working tree can still be clean.
+4. After reviewing that state, run `git pull --ff-only` to bring in the change.
+   It fetches again, so a remote update since step 2 may affect the result.
+5. Run `git status` to confirm the resulting state against the fetched snapshot.
+
+**Fast-forward** means the old branch tip is an ancestor of the target:
+Git moves the branch pointer forward without creating a merge commit.
+If local and remote histories each have their own new commits, they have
+**diverged**; `--ff-only` refuses instead of selecting a merge/rebase strategy.
+Stop and review those histories before choosing how to integrate them.
+
+This walkthrough assumes the stated branch, upstream and clean working tree.
+If `status` shows local edits or another branch/upstream, resolve that context
+before pulling. A plain `git pull` may follow different integration settings;
+use `--ff-only` to make the intended restriction explicit. A successful fetch
+is a snapshot at that moment, not a promise that GitHub will remain unchanged.
+
+References: [status](https://git-scm.com/docs/git-status),
+[fetch](https://git-scm.com/docs/git-fetch),
+[pull](https://git-scm.com/docs/git-pull),
+[fast-forward merge](https://git-scm.com/docs/git-merge#_fast_forward_merge).
 
 ---
 
@@ -1418,7 +1515,7 @@ It does not universally mean "close Nano."
 
 ### 🐟 FISH
 
-[🖥️ Sessions](#learning-fish-sessions) · [⚙️ Functions](#learning-fish-functions)
+[🖥️ Sessions](#learning-fish-sessions) · [🔎 Command Lookup](#learning-fish-command-lookup) · [⚙️ Functions](#learning-fish-functions)
 
 <a id="learning-fish-sessions"></a>
 
@@ -1430,6 +1527,36 @@ Ends the current Fish shell session.
 
 If that shell is the only process keeping a terminal window open, the
 terminal application may then close the window.
+
+<a id="learning-fish-command-lookup"></a>
+
+#### 🔎 IDENTIFYING A COMMAND WITH TYPE
+
+In Fish, `type` explains what a name resolves to. It can show a function's
+definition, a builtin, or an executable's path. It does not run the named command.
+
+```fish
+type -t string
+type -a git
+```
+
+In an ordinary Fish session, the first prints `builtin`; the second lists
+available definitions for `git`, often an executable path. Your functions and
+`PATH` can change the result. `-t` shows the category; `-a` includes all matches.
+A missing name returns failure.
+
+After defining `hello` in [Functions](#learning-fish-functions), `type hello`
+shows its definition and `type -t hello` prints `function`.
+
+Fish implements **aliases as wrapper functions**, so they also report `function`.
+An alias-generated definition can include its original alias description;
+`type -t` alone does not distinguish aliases from other functions.
+
+For a personal command such as `arsenal`, `type arsenal` helps check what it
+would open without opening the manual or redefining/saving the function.
+
+References: [Fish type](https://fishshell.com/docs/current/cmds/type.html),
+[Fish alias](https://fishshell.com/docs/current/cmds/alias.html).
 
 <a id="learning-fish-functions"></a>
 
