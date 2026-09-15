@@ -106,3 +106,80 @@ network-failure scenarios. Custom refspecs, hooks and arbitrary pull configurati
 were not exhaustively tested. The personal `arsenal` function and the user's
 project checkout were not modified. No new CI, dependencies or permanent test
 framework were added. The portfolio review above retains its original scope/date.
+
+## Roadmap documentation follow-up — 2026-09-15
+
+Audited the official repository's `main` at
+[`dd4dbc7c70ba032001ef32d99f710d3ac6e766a1`](https://github.com/manufernandez-programmer/developer-arsenal/commit/dd4dbc7c70ba032001ef32d99f710d3ac6e766a1).
+GitHub's branch/tree APIs and a fresh clone agreed on that revision. No open PRs
+were returned at the initial check. Read the README, both manual modes,
+contribution rules and prior reviews before editing. No old local checkout was
+used to determine coverage.
+
+The supplied MARS methodology separates **documented coverage** from **Manu's
+knowledge**. "Missing" below means missing documentation at that revision; it
+does not claim the topic is new to Manu.
+
+### Candidate decisions
+
+| Candidate | Audited coverage and action |
+| --- | --- |
+| `cat`, `cp`, `rm` | Already covered in Terminal → Files & Directories in both modes; retained without duplicate entries |
+| Pipes, `wl-copy`, `cat file \| wl-copy` | Already covered in Terminal → Clipboard / Redirection & Pipes; retained |
+| Nano `Ctrl + \` | Search/replace already covered in both modes; retained |
+| Fish `type`, `type -t`, `type -a` | Already covered in Fish → Command Lookup; linked rather than repeated |
+| `touch` | Missing; added to [Files & Directories](../ARSENAL.md#learning-terminal-files-directories), including existing-file timestamp effects and missing-parent failure |
+| `command -v` | Missing; added [Lookup & Applications](../ARSENAL.md#learning-terminal-lookup-applications), distinguishing Bash's broader lookup from Fish's external-command search |
+| Firefox with a URL | Missing; placed with terminal lookup/application execution, with quoting and graphical-session prerequisites |
+| Markdown source vs rendering | `less` already present; expanded its existing entry with source vs GitHub Preview/Raw and local vs remote revision distinctions |
+| `Ctrl + Shift + C/V` | Missing; added under [Terminal → Clipboard](../ARSENAL.md#learning-terminal-clipboard), with a cross-reference from Nano; these are emulator mappings, not Nano-native shortcuts |
+| Nano `Ctrl + V`, `Ctrl + Y`, `Alt + \`, `Alt + /` | All four missing, including `Alt + /`; expanded [Nano → Navigation](../ARSENAL.md#learning-nano-navigation) in both modes |
+| Fish `functions name`, `--details`, `--erase` | Missing variants; expanded [Fish → Functions](../ARSENAL.md#learning-fish-functions), without another function-definition section |
+| Fish saved file vs loaded definition; GUI/URL function | Definition and `funcsave` already existed; added session/autoload distinctions and a separate practice function, leaving the personal `arsenal` function alone |
+| `funcsave` after erasure | Upstream verification exposed an incomplete existing explanation: current Fish can persist an erasure by removing the saved definition; clarified both modes as part of the requested lifecycle review |
+| HTML tags/elements, opening/closing tags, `html`, `head`, `body`, `title`, nesting, indentation and attributes | Missing explanatory coverage; existing HTML anchors were navigation markup, not teaching material. Added [HTML → Structure](../ARSENAL.md#learning-html-structure) in both modes |
+| `meta charset`, UTF-8, void elements | Missing; covered within HTML structure/metadata, including declaration vs actual file encoding and the absence of end tags on `meta`/`link` |
+| Viewport, full viewport declaration, `name`, `content`, `width=device-width`, `initial-scale=1.0` | Missing; added [HTML → Metadata](../ARSENAL.md#learning-html-metadata), distinguishing HTML attributes from settings inside `content` |
+| Stylesheet link, `rel`, `href`, external resources and HTML/CSS relationship | Missing; added [HTML & CSS](../ARSENAL.md#learning-html-css), with a small separate stylesheet and relative-path explanation |
+
+Added HTML to the existing map and README; preserved all prior explicit anchors.
+No candidate was discarded as technically invalid. Already-covered commands were
+excluded from new entries to avoid duplication. Broader CSS, GUI installation,
+shell configuration changes and a replacement for the user's launcher are outside
+this maintenance scope.
+
+### Verification and limits
+
+This follow-up ran in an isolated Linux work environment, **not on LaNavePC**:
+Bash 5.2.21, GNU Coreutils 9.4, Nano 7.2, less 590, Git 2.51.1, Python 3.12.14
+and Marked 17.0.5. No packages or project dependencies were added.
+
+| Check | Result |
+| --- | --- |
+| `touch` on disposable regular files | Created an empty missing file; preserved existing bytes while updating access/modification timestamps; rejected a missing parent directory |
+| Bash `command -v` | Reported a function, builtin and external executable without invoking them; an absent name produced no result and a nonzero status |
+| Nano navigation | With rc files ignored in disposable pseudo-terminals, page down advanced from line 1 to 19, page up returned to 1, end reached the final empty line 201, and start returned to 1; original file bytes unchanged |
+| `less` | With preprocessing disabled and stdout captured, preserved the Markdown source bytes; this was not an interactive visual-rendering test |
+| Markdown | Rendered all four Markdown documents to HTML using Marked; inspected output structure, checked closed fences, unique anchors, preserved original anchors and all relative file/fragment links; example HTML remained escaped as code |
+| HTML example | Checked balanced nesting, doctype, head metadata, UTF-8 text, title and the relative link to the extracted CSS sample; these are structural checks, not a browser rendering or responsive-layout test |
+| Shell snippets and diff | Shared `sh`/`bash` fences parsed with Bash; complete diff reviewed and `git diff --check` passed |
+
+Technical behavior was checked against the primary references linked beside the
+new entries: Fish 4.9.3 documentation (`command`, `functions`, `funcsave` and
+autoloading), GNU Nano manual/shortcut sheet, kitty's clipboard mappings, Firefox
+Source Docs, GitHub Docs, WHATWG and MDN. GNU manual pages did not load in the web
+fetcher; local `touch --help`, Bash `help command` and disposable checks supplied
+verification for those commands. Canonical GNU links remain in the manual.
+
+Fish and Firefox executables were not available in this environment. Fish
+inspection/erasure/autoloading and the GUI function were verified from upstream
+documentation, not executed locally. No saved user functions, personal launchers,
+global configuration or real clipboard contents were modified by the tests.
+Nano tests used traditional byte/Meta sequences; actual Alt keys, keyboard
+layouts, Nano 9.x/custom bindings, graphical clipboard integration and browser
+rendering still depend on the reader's environment. The emulator example does
+not assert that Manu uses kitty.
+
+The change is documentation only and requires review through
+**Cerebro → Manu's approval → merge**. The PR does not itself authorize a merge
+or update the user's local checkout or MARS source documents.

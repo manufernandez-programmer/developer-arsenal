@@ -5,7 +5,7 @@ A practical developer encyclopedia and quick-reference manual for everyday devel
 **Find the command. Understand the parts. Get back to building.**
 
 Developer Arsenal is a personal documentation project: a single Markdown manual
-for learning and recalling terminal, Python, Git/GitHub, Nano and Fish workflows.
+for learning and recalling terminal, HTML, Python, Git/GitHub, Nano and Fish workflows.
 It combines short lookups with explanations, diagrams and small examples.
 
 ## Choose your mode
@@ -23,11 +23,14 @@ explains why staging is separate from committing and publishing.
 
 ## What's inside
 
-- **Terminal:** navigation, files, pattern search, pipes, redirection and Wayland clipboard.
+- **Terminal:** navigation, files, pattern search, command lookup, browser launch,
+  pipes, redirection, terminal shortcuts and Wayland clipboard commands.
+- **HTML:** [document structure, metadata and linking CSS](ARSENAL.md#learning-html),
+  with a small page to read and try.
 - **Python:** running a script and checking syntax, including what compilation does not test.
 - **Git & GitHub:** local history, staging, identity, remotes, authentication and a branch-to-PR workflow.
 - **Nano:** traditional editing shortcuts and version/configuration caveats.
-- **Fish:** sessions, function definitions and persistence with `funcsave`.
+- **Fish:** command lookup, function inspection, session state and persistence with `funcsave`.
 - **Utilities:** inspecting tabs and reviewing a conversion before changing source files.
 
 ## How to use it
