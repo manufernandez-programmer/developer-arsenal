@@ -26,6 +26,7 @@ See a real example, break it down, understand what happened, then return to Quic
 | --- | --- | --- |
 | Fundamentals | — | [Command anatomy, shortcuts, exit codes](#learning-fundamentals) |
 | Terminal | [Commands](#quick-terminal) | [Examples and effects](#learning-terminal) |
+| HTML | [Structure, metadata and CSS](#quick-html) | [Read a small web page](#learning-html) |
 | Python | [Run and compile](#quick-python) | [First program and syntax](#learning-python) |
 | Git & GitHub | [Reference](#quick-git) | [Local history to a reviewed PR](#learning-git) |
 | Nano | [Shortcuts](#quick-nano) | [Editing walkthrough](#learning-nano) |
@@ -58,7 +59,7 @@ never pipe private files or logs to the clipboard without checking their content
 
 ### 💻 TERMINAL
 
-[🧭 Navigation](#quick-terminal-navigation) · [📄 Files & Directories](#quick-terminal-files-directories) · [🔎 Search](#quick-terminal-search) · [📋 Clipboard](#quick-terminal-clipboard) · [🔀 Redirection & Pipes](#quick-terminal-redirection-pipes) · [⚙️ Options](#quick-terminal-options) · [🔣 Symbols & Sequences](#quick-terminal-symbols-sequences)
+[🧭 Navigation](#quick-terminal-navigation) · [📄 Files & Directories](#quick-terminal-files-directories) · [🚀 Lookup & Applications](#quick-terminal-lookup-applications) · [🔎 Search](#quick-terminal-search) · [📋 Clipboard](#quick-terminal-clipboard) · [🔀 Redirection & Pipes](#quick-terminal-redirection-pipes) · [⚙️ Options](#quick-terminal-options) · [🔣 Symbols & Sequences](#quick-terminal-symbols-sequences)
 
 <a id="quick-terminal-navigation"></a>
 
@@ -82,7 +83,11 @@ never pipe private files or logs to the clipboard without checking their content
 
 `nano file` → Open or create a file for editing
 
-`less file` → View a file without editing it
+`less file` → View a file without editing it; normally shows Markdown source,
+not a rendered page
+
+`touch file` → Create an empty file if missing; otherwise update access and
+modification times without clearing its contents
 
 `mkdir directory` → Create a directory
 
@@ -107,6 +112,20 @@ Choose a new backup name. Declining the prompt does not create a fresh backup.
 
 ---
 
+<a id="quick-terminal-lookup-applications"></a>
+
+#### 🚀 LOOKUP & APPLICATIONS
+
+`command -v name` → Look up a command without running it; in Fish this searches
+external executables in `PATH`, while Bash also reports functions and builtins
+
+For Fish functions, aliases and builtins, use the existing [type reference](#quick-fish-command-lookup).
+
+`firefox 'https://example.org/'` → Ask Firefox to open a URL; requires an
+available Firefox command and access to a graphical session
+
+---
+
 <a id="quick-terminal-search"></a>
 
 #### 🔎 SEARCH
@@ -124,6 +143,16 @@ Choose a new backup name. Declining the prompt does not create a fresh backup.
 <a id="quick-terminal-clipboard"></a>
 
 #### 📋 CLIPBOARD
+
+`Ctrl + Shift + C` → Common terminal-emulator shortcut to copy selected text
+to the system clipboard
+
+`Ctrl + Shift + V` → Common terminal-emulator shortcut to paste the system
+clipboard into the focused application; can insert text into an editor or shell prompt
+
+These are terminal-emulator mappings (for example, kitty defaults on Linux),
+not native Nano shortcuts. Check your emulator's settings; see
+[selection and paste behavior](#learning-terminal-clipboard).
 
 `wl-copy` → Copy data to the Wayland clipboard
 
@@ -188,6 +217,55 @@ expression
 `\t` → TAB escape notation when the receiving tool interprets it
 
 `\` → Continue a command on the next line
+
+<a id="quick-html"></a>
+
+### 🌐 HTML
+
+[🧱 Structure](#quick-html-structure) · [🏷️ Metadata](#quick-html-metadata) · [🎨 HTML & CSS](#quick-html-css)
+
+<a id="quick-html-structure"></a>
+
+#### 🧱 STRUCTURE
+
+`<p>Hola</p>` → One paragraph element: opening tag, content, closing tag
+
+`<html>…</html>` → Root element containing the document's head and body
+
+`<head>…</head>` → Document metadata and resource references
+
+`<body>…</body>` → Page content
+
+`<title>…</title>` → Document title inside the head, usually shown in the browser tab
+
+**Nesting:** close an inner element before its parent. Indentation makes the
+structure readable; spaces alone do not create parent/child relationships.
+
+**Attributes:** settings inside a start tag, such as `lang="es"` in `<html lang="es">`.
+
+**Void elements:** `meta` and `link` have no content or closing tag in HTML.
+
+<a id="quick-html-metadata"></a>
+
+#### 🏷️ METADATA
+
+`<meta charset="UTF-8">` → Declare UTF-8 character encoding; save the file as UTF-8 too
+
+`<meta name="viewport" content="width=device-width, initial-scale=1.0">` → Set
+viewport sizing and initial scale for mobile layout; not a complete responsive design
+
+`name` identifies this metadata; `content` holds its value. Here, `width=device-width`
+and `initial-scale=1.0` are settings within that value, not separate HTML attributes.
+
+<a id="quick-html-css"></a>
+
+#### 🎨 HTML & CSS
+
+`<link rel="stylesheet" href="styles.css">` → Load a separate CSS file from the head:
+`rel` identifies its relationship, and `href` supplies its URL/path
+
+HTML describes content and structure; CSS styles it. Linking does not create the
+CSS file. See the [complete example and relative-path explanation](#learning-html-css).
 
 <a id="quick-python"></a>
 
@@ -362,6 +440,14 @@ help with traditional bindings. Check the shortcut bar in your own session.
 
 `Alt + G` → Go to a specific line and column
 
+`Ctrl + V` → Move one page down
+
+`Ctrl + Y` → Move one page up
+
+`Alt + \` → Go to the beginning of the buffer
+
+`Alt + /` → Go to the end of the buffer
+
 ---
 
 <a id="quick-nano-editing"></a>
@@ -431,8 +517,18 @@ See [examples and limits](#learning-fish-command-lookup).
 
 `end` → End the function definition
 
+`functions name` → Print a function's definition without calling it
+
+`functions --details name` → Report its definition/autoload source, when available
+
+`functions --erase name` → Remove it from the current session and prevent
+autoloading there; does not delete its saved file
+
 `funcsave name` → Write a defined function to Fish configuration for future
-sessions; can replace a saved function with that name
+sessions; can replace a saved function with that name. In current Fish, saving
+an erased name instead removes its saved definition
+
+See [session vs saved definitions and a browser function](#learning-fish-functions).
 
 <a id="quick-utilities"></a>
 
@@ -619,7 +715,7 @@ Pedro can remain free... for now.
 
 ### 💻 TERMINAL
 
-[🧭 Navigation](#learning-terminal-navigation) · [📄 Files & Directories](#learning-terminal-files-directories) · [🔎 Search](#learning-terminal-search) · [📋 Clipboard](#learning-terminal-clipboard) · [🔀 Redirection & Pipes](#learning-terminal-redirection-pipes) · [🔣 Symbols & Sequences](#learning-terminal-symbols-sequences)
+[🧭 Navigation](#learning-terminal-navigation) · [📄 Files & Directories](#learning-terminal-files-directories) · [🚀 Lookup & Applications](#learning-terminal-lookup-applications) · [🔎 Search](#learning-terminal-search) · [📋 Clipboard](#learning-terminal-clipboard) · [🔀 Redirection & Pipes](#learning-terminal-redirection-pipes) · [🔣 Symbols & Sequences](#learning-terminal-symbols-sequences)
 
 <a id="learning-terminal-navigation"></a>
 
@@ -702,6 +798,14 @@ the file.
 `less` opens a text viewer that lets you navigate through the file while
 leaving it unchanged.
 
+With ordinary `less`, Markdown such as `# Notes` and `**Hello**` remains visible
+as source text. A Markdown renderer turns those markers into a heading and bold
+text. GitHub's **Preview** renders Markdown; **Raw** shows the source.
+Configured preprocessors or wrappers can change what a local pager displays.
+
+GitHub shows the selected remote revision, which may differ from your local file.
+Opening it does not publish local edits. See [GitHub's file views](https://docs.github.com/en/repositories/working-with-files/using-files/viewing-and-understanding-files).
+
 ---
 
 ##### ✏️ Open or create a file for editing
@@ -710,6 +814,19 @@ leaving it unchanged.
 
 Nano opens the file in a text editor. If the named file does not exist,
 Nano can create it when you save.
+
+---
+
+##### 📄 Create an empty file or refresh timestamps
+
+`touch notes.txt`
+
+If `notes.txt` is missing, GNU `touch` creates an empty file. If it already
+contains notes, their bytes stay intact; its access and modification timestamps
+are updated to the current time. Successful execution normally prints nothing.
+
+`touch` does not create missing parent directories and still needs the relevant
+permissions. It is not a way to empty a file. See [GNU touch](https://www.gnu.org/software/coreutils/manual/html_node/touch-invocation.html).
 
 ---
 
@@ -793,6 +910,46 @@ the file to a recycle bin.
 
 Be careful: this can remove an entire directory tree.
 
+<a id="learning-terminal-lookup-applications"></a>
+
+#### 🚀 LOOKUP & APPLICATIONS
+
+##### 🔎 Find an executable
+
+`command -v firefox`
+
+Here `command` is a real shell command, not the placeholder used in pipeline
+examples. `-v` requests a lookup; it does not launch Firefox. An ordinary result
+is an executable path such as `/usr/bin/firefox`, but installation and `PATH`
+(the shell's executable search directories) determine what can be found.
+
+| Shell | What `command -v name` can report |
+| --- | --- |
+| Bash | A command description, including a function, alias, builtin or executable |
+| Fish | An external executable found in `PATH`; use [type](#learning-fish-command-lookup) for other command kinds |
+
+No match produces no lookup result and a nonzero status. That does not prove the
+software is uninstalled: it may be outside `PATH`, or, in Fish, the name may be a
+function. In Bash, the result is not necessarily a filesystem path.
+
+References: [Bash command](https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html),
+[Fish command](https://fishshell.com/docs/current/cmds/command.html).
+
+##### 🌐 Open a URL from the terminal
+
+`firefox 'https://example.org/'`
+
+`firefox` is the application command; the quoted URL is one argument. Quotes
+also protect URL characters such as `&` from shell interpretation. Firefox is
+asked to open the page and may reuse an existing browser instance. This can
+make a network request; it is not a terminal text-viewing command.
+
+This example needs Firefox available under that command name and a graphical
+session accessible to it. The prompt may remain occupied while a new browser
+process runs; this command does not explicitly send it to the background.
+See [Firefox command-line parameters](https://firefox-source-docs.mozilla.org/browser/CommandLineParameters.html)
+and the [Fish function example](#learning-fish-functions).
+
 <a id="learning-terminal-search"></a>
 
 #### 🔎 SEARCH
@@ -817,6 +974,28 @@ To search for TAB characters using PCRE syntax (GNU grep with PCRE support):
 <a id="learning-terminal-clipboard"></a>
 
 #### 📋 CLIPBOARD
+
+##### Terminal copy and paste
+
+In a terminal emulator with these mappings (for example,
+[kitty on Linux](https://sw.kovidgoyal.net/kitty/conf/#clipboard)):
+
+1. Select some displayed text using the terminal's selection mechanism.
+2. `Ctrl + Shift + C` copies that selection to the system clipboard.
+3. `Ctrl + Shift + V` sends clipboard text to the focused terminal application.
+
+The emulator owns these shortcuts, even while Nano is open. Nano's marked
+region and internal cutbuffer are separate from the terminal's selection and
+the system clipboard; `Ctrl + U` pastes from Nano's cutbuffer. Also, Nano's
+traditional `Ctrl + V` means **page down**, not clipboard paste.
+
+Check the emulator's configuration, keyboard layout and any intercepted bindings.
+Pasting changes an editor buffer or shell input; pasted newlines may submit
+commands, depending on application and bracketed-paste support. Inspect the text
+and the focused application first. These shortcuts do not themselves require
+`wl-copy`; the following command examples specifically require Wayland.
+
+##### Wayland clipboard commands
 
 `wl-copy` copies data to the Wayland clipboard.
 
@@ -936,6 +1115,137 @@ Visually it spans several lines. Logically it is:
 
 It prints the names, without deleting files. The backslash must immediately
 precede the newline; trailing spaces break the continuation.
+
+<a id="learning-html"></a>
+
+### 🌐 HTML
+
+[🧱 Structure](#learning-html-structure) · [🏷️ Metadata](#learning-html-metadata) · [🎨 HTML & CSS](#learning-html-css)
+
+<a id="learning-html-structure"></a>
+
+#### 🧱 STRUCTURE
+
+HTML is markup that describes a page's content and structure. In a new practice
+directory, save this as `index.html` using UTF-8 encoding. Create the linked
+`styles.css` from [HTML & CSS](#learning-html-css) alongside it.
+
+```html
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de práctica</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <p>Listos para <strong>construir</strong>.</p>
+    <p>Mañana seguimos.</p>
+  </body>
+</html>
+```
+
+Open `index.html` in a browser. Expect two paragraphs, including the accented
+text; the tab title is **Página de práctica**. The tags themselves are not displayed.
+
+| Part | Meaning |
+| --- | --- |
+| `<!doctype html>` | Document declaration that selects standards mode; not an element |
+| `<html>…</html>` | Root element wrapping the head and body |
+| `<head>…</head>` | Metadata and resource references, rather than the page's body content |
+| `<title>Página de práctica</title>` | Document title; does not create a heading in the body |
+| `<body>…</body>` | Content displayed in the page |
+| `<p>…</p>` | A paragraph element |
+| `<strong>construir</strong>` | An element marking importance, normally displayed in bold |
+| `lang="es"` | Attribute declaring Spanish as the document's language |
+
+An **opening tag** such as `<strong>` starts an element; `</strong>` is its
+**closing tag**. The element includes its tags and content. An **attribute**
+adds information inside the opening tag: in `lang="es"`, `lang` is the name and
+`es` is the value. This declares the language; it does not add visible page text.
+
+**Nesting** means placing an element inside another. In the example, `strong`
+is inside `p`: close `strong` before closing `p`. Crossing the closing tags is
+invalid; browser error recovery does not make the source correct.
+
+Two-space indentation exposes the hierarchy for the reader; it is a convention,
+not what creates the nesting. Whitespace can still affect text spacing and
+preformatted content, so do not treat all whitespace as disposable.
+
+Unlike these paired elements, `meta` and `link` are **void elements**: no content
+and no end tag. Do not write `</meta>` or `</link>`. A trailing `/` is unnecessary
+for void elements in HTML and does not turn ordinary HTML elements into
+self-closing ones. HTML permits some tag omissions, but this example uses
+explicit opening/closing tags for clarity.
+
+References: [MDN HTML syntax](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax),
+[WHATWG elements and tags](https://html.spec.whatwg.org/multipage/syntax.html#elements-2).
+
+<a id="learning-html-metadata"></a>
+
+#### 🏷️ METADATA
+
+##### Character encoding
+
+`<meta charset="UTF-8">`
+
+`charset` declares the document's character encoding. **UTF-8** encodes Unicode
+characters as bytes, including letters such as `ñ`. Put this declaration near
+the start of the head, as in the example, and save the actual file as UTF-8.
+Declaring an encoding does not convert incorrectly saved bytes or repair garbled
+text. Encoding is different from the language declared with `lang`.
+
+##### Viewport
+
+`<meta name="viewport" content="width=device-width, initial-scale=1.0">`
+
+The viewport is the area the browser uses to present the page. Mobile browsers
+can otherwise lay out a page using a wider virtual viewport and shrink it.
+
+| Part | Meaning here |
+| --- | --- |
+| `name="viewport"` | Identify the kind of metadata |
+| `content="…"` | Hold the comma-separated viewport settings in one attribute value |
+| `width=device-width` | Use the device width in CSS pixels for viewport sizing |
+| `initial-scale=1.0` | Request an initial scale of 1; does not disable user zoom |
+
+The two settings inside `content` are not separate HTML attributes. CSS pixels
+are not necessarily physical screen pixels. This declaration helps mobile
+layout; responsive CSS and appropriately sized content are still needed.
+
+References: [MDN metadata](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Webpage_metadata),
+[MDN viewport](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta/name/viewport).
+
+<a id="learning-html-css"></a>
+
+#### 🎨 HTML & CSS
+
+`<link rel="stylesheet" href="styles.css">`
+
+Inside the head, this tells the browser to load a stylesheet. `rel` names the
+relationship (**stylesheet**); `href` gives the resource URL. Here `styles.css`
+is relative to the document URL and resolves to a file in the same directory.
+A document with a different base URL can resolve relative links differently.
+
+Create a separate `styles.css` beside the example's `index.html`:
+
+```css
+p {
+  color: navy;
+}
+```
+
+`p` selects paragraphs; `color: navy` sets their text color. Reload the HTML page:
+both paragraphs should be navy. HTML supplies their structure and meaning; CSS
+controls this presentation. CSS is not HTML and does not use HTML tags.
+
+An **external resource** is separate from the HTML document; it need not belong
+to another website. The link does not create or embed the CSS file. If styling
+is missing, check that the file exists and that the path and filename case match.
+If the stylesheet cannot load, the HTML content can still appear with default styling.
+
+Reference: [MDN link](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/link).
 
 <a id="learning-python"></a>
 
@@ -1474,6 +1784,24 @@ To go directly to a line and column:
 
 Nano shortcuts act inside Nano. They are not shell commands.
 
+##### Move through a long file
+
+| Traditional shortcut | Result in the editing buffer |
+| --- | --- |
+| `Ctrl + V` | Move one page down |
+| `Ctrl + Y` | Move one page up |
+| `Alt + \` | Go to the beginning of the buffer |
+| `Alt + /` | Go to the end of the buffer |
+
+These move the cursor without editing text. Try page down/up in a file longer
+than the visible screen; the page size depends on the terminal's dimensions.
+Beginning/end refer to the entire buffer, not just the visible page.
+
+Nano calls Alt shortcuts **Meta** (`M-`). If Alt is intercepted, press and release
+`Esc`, then the indicated character; for example, `Esc` then `/` for the end.
+Keyboard layouts and custom/modern bindings can differ. Check your session's help
+and the [Nano shortcut reference](https://www.nano-editor.org/dist/latest/cheatsheet.html).
+
 <a id="learning-nano-editing"></a>
 
 #### ✏️ EDITING
@@ -1493,6 +1821,9 @@ context.
 
 Shortcut availability can depend on Nano version, terminal behavior, and
 keyboard layout.
+
+For system clipboard copy/paste, see [Terminal → Clipboard](#learning-terminal-clipboard).
+Nano's cutbuffer is separate; `Ctrl + Shift + C/V` belong to the terminal emulator.
 
 <a id="learning-nano-save-exit"></a>
 
@@ -1596,9 +1927,76 @@ Once the function exists in the current Fish session:
 
 saves that defined function so Fish can autoload it in future sessions.
 
-`funcsave` does not invent the function for you. The function must
-already be defined. It writes to your Fish configuration directory and can
+`funcsave` does not invent the function for you. To save its body, the function
+must already be defined. It writes to your Fish configuration directory and can
 replace a saved function of the same name; use a name you intend to keep.
+Current Fish also supports persisting an erasure, as explained below.
+
+##### Inspect an existing function
+
+```fish
+functions hello
+functions --details hello
+```
+
+`functions` (plural) inspects definitions; `function` (singular) begins a new one.
+The first command prints the body of `hello` without calling it. The second
+reports where it was defined or could be autoloaded: a file path, `stdin` for an
+interactive definition, `-` for a definition made via `source` (including aliases),
+or `n/a` when unavailable. Use the existing [type entry](#learning-fish-command-lookup)
+when you do not yet know whether a name is a function.
+
+##### A saved file and a running session are different states
+
+A definition entered interactively lives in that Fish process. `funcsave hello`
+normally writes `~/.config/fish/functions/hello.fish`; `XDG_CONFIG_HOME` can move
+the user configuration directory. Autoload lookup follows `$fish_function_path`
+and expects the filename to match the function name.
+
+Removing or renaming the saved file is not a reliable way to clear a definition
+already entered in a running session. Conversely, erasing the session definition
+does not remove the saved file. Fish can reload changed autoload files, so do not
+assume all loaded definitions are frozen copies; inspect the actual source.
+
+To forget the disposable `hello` function in the current session:
+
+```fish
+functions --erase hello
+```
+
+This removes the definition and prevents it from autoloading again in that
+session. An existing saved file remains available to another/new Fish session.
+Permanent removal also requires reviewing the saved source separately; this
+command alone does not do that. No other running shell is changed by this erase.
+
+In current Fish, running `funcsave hello` **after erasing** it removes its saved
+definition. Do not use `funcsave` as a harmless existence check or assume it
+always writes a function body. Check your installed version and the upstream
+reference before deliberately persisting a removal.
+
+##### Give a browser action a name
+
+Choose an unused practice name. This example defines a function in the current
+session, then invokes it:
+
+```fish
+function open_example
+    command firefox 'https://example.org/'
+end
+
+open_example
+```
+
+Its body requests the same browser action as [the terminal example](#learning-terminal-lookup-applications).
+In Fish, `command firefox` selects the external program, bypassing any function
+or builtin with that name. The function itself is not a browser and does not
+render Markdown. It needs the same Firefox/graphical-session prerequisites and
+is not persisted unless you deliberately save it. This does not redefine a
+personal function such as `arsenal`.
+
+References: [Fish functions](https://fishshell.com/docs/current/cmds/functions.html),
+[autoloading](https://fishshell.com/docs/current/language.html#autoloading-functions),
+[funcsave](https://fishshell.com/docs/current/cmds/funcsave.html).
 
 <a id="learning-utilities"></a>
 
